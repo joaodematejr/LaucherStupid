@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Configurações específicas para L4 -->
+    <string name="model_description">Launcher Premium para dispositivos L4</string>
+    <string name="welcome_message">Bem-vindo ao Launcher L4 Premium!</string>
+    <string name="grid_info">Grade 4x4 avançada</string>
+    <string name="premium_features">Recursos Premium Habilitados</string>
+
+    <!-- Configurações de layout -->
+    <string name="layout_type">premium</string>
+    <string name="feature_set">advanced</string>
+
+    <!-- Recursos exclusivos L4 -->
+    <string name="widgets_support">Suporte a Widgets</string>
+    <string name="custom_themes">Temas Personalizados</string>
+    <string name="gesture_controls">Controles por Gestos</string>
+</resources>
+

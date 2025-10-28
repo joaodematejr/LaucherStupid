@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dimensões específicas para L3 -->
+    <dimen name="app_icon_size">56dp</dimen>
+    <dimen name="app_text_size">10sp</dimen>
+    <dimen name="grid_spacing">12dp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="header_padding">12dp</dimen>
+    <dimen name="content_padding">8dp</dimen>
+
+    <!-- Configurações específicas do modelo L3 -->
+    <dimen name="model_specific_margin">8dp</dimen>
+    <dimen name="compact_spacing">6dp</dimen>
+</resources>
+

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Configurações específicas para L3 -->
+    <string name="model_description">Launcher otimizado para dispositivos L3</string>
+    <string name="welcome_message">Bem-vindo ao Launcher L3!</string>
+    <string name="grid_info">Grade 3x3 otimizada</string>
+
+    <!-- Configurações de layout -->
+    <string name="layout_type">compact</string>
+    <string name="feature_set">basic</string>
+</resources>
+

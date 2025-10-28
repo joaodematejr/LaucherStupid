@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">LaucherStupid</string>
+    <string name="app_name">Launcher Stupid</string>
+    <string name="model_description">Launcher Android Personalizado</string>
+    <string name="welcome_message">Bem-vindo ao Launcher!</string>
+    <string name="grid_info">Grade de aplicativos</string>
+    <string name="layout_type">default</string>
+    <string name="feature_set">standard</string>
 </resources>
