@@ -107,6 +107,10 @@ dependencies {
     // Material Design 3 Extended Icons
     implementation(libs.androidx.material.icons.extended)
 
+    // Navigation Compose
+    implementation(libs.androidx.navigation.compose)
+
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
