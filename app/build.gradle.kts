@@ -1,7 +1,15 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+}
+
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(keystorePropertiesFile.inputStream())
 }
 
 android {
@@ -20,6 +28,25 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            if (keystorePropertiesFile.exists()) {
+                storeFile = file(keystoreProperties["storeFile"] as String)
+                storePassword = keystoreProperties["storePasswordRelease"] as String
+                keyAlias = keystoreProperties["keyAlias"] as String
+                keyPassword = keystoreProperties["keyPasswordRelease"] as String
+            }
+        }
+        getByName("debug") {
+            if (keystorePropertiesFile.exists()) {
+                storeFile = file(keystoreProperties["storeFile"] as String)
+                storePassword = keystoreProperties["storePasswordDebug"] as String
+                keyAlias = keystoreProperties["keyAlias"] as String
+                keyPassword = keystoreProperties["keyPasswordDebug"] as String
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -27,17 +54,55 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            if (keystorePropertiesFile.exists()) {
+                signingConfig = signingConfigs.getByName("release")
+            }
+        }
+        debug {
+            if (keystorePropertiesFile.exists()) {
+                signingConfig = signingConfigs.getByName("debug")
+            }
+        }
+    }
+
+    flavorDimensions += "model"
+    productFlavors {
+        create("l3") {
+            dimension = "model"
+            applicationIdSuffix = ".l3"
+            versionNameSuffix = "-L3"
+            resValue("string", "app_name", "Launcher L3")
+            resValue("string", "model_name", "L3")
+            resValue("integer", "grid_columns", "3")
+            resValue("integer", "icon_size", "56")
+            buildConfigField("String", "MODEL_TYPE", "\"L3\"")
+            buildConfigField("boolean", "PREMIUM_FEATURES", "false")
+        }
+
+        create("l4") {
+            dimension = "model"
+            applicationIdSuffix = ".l4"
+            versionNameSuffix = "-L4"
+            resValue("string", "app_name", "Launcher L4")
+            resValue("string", "model_name", "L4")
+            resValue("integer", "grid_columns", "4")
+            resValue("integer", "icon_size", "48")
+            buildConfigField("String", "MODEL_TYPE", "\"L4\"")
+            buildConfigField("boolean", "PREMIUM_FEATURES", "true")
         }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+        }
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
