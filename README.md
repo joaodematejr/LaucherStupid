@@ -164,7 +164,7 @@ Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalh
 
 ## 👨‍💻 Autor
 
-- **João de Matê Jr** - [@joaodematejr](https://github.com/joaodematejr)
+- **João Dematé Jr** - [@joaodematejr](https://github.com/joaodematejr)
 
 ## 📞 Suporte
 
