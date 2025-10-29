@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        api-level: [ 36 ]
+        api-level: [ 35, 36 ]
 
     steps:
     - name: Checkout code

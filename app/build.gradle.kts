@@ -80,12 +80,12 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlin {
         compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
         }
     }
     buildFeatures {
@@ -105,7 +105,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
 
     // Material Design 3 Extended Icons
-    implementation(libs.androidx.material.icons.extended)
+    implementation(libs.androidx.compose.material.icons.extended)
 
     // Navigation Compose
     implementation(libs.androidx.navigation.compose)
