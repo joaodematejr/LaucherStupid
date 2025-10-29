@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        api-level: [ 35, 36 ]
+        api-level: [ 36 ]
 
     steps:
     - name: Checkout code
@@ -54,41 +54,41 @@ jobs:
           ${{ runner.os }}-android-build-cache-
 
     - name: Run Lint
-      run: ./gradlew lintDebug
+      run: ./gradlew lintL3Debug
 
     - name: Run Unit Tests
-      run: ./gradlew testDebugUnitTest
+      run: ./gradlew testL3DebugUnitTest
 
     - name: Build Debug APK
-      run: ./gradlew assembleDebug
+      run: ./gradlew assembleL3Debug
 
     - name: Build Release APK
-      run: ./gradlew assembleRelease
+      run: ./gradlew assembleL3Release
 
     - name: Upload Debug APK
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: debug-apk-api-${{ matrix.api-level }}
-        path: app/build/outputs/apk/debug/
+        name: debug-apk-l3-api-${{ matrix.api-level }}
+        path: app/build/outputs/apk/l3/debug/
         retention-days: 30
 
     - name: Upload Release APK
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: release-apk-api-${{ matrix.api-level }}
-        path: app/build/outputs/apk/release/
+        name: release-apk-l3-api-${{ matrix.api-level }}
+        path: app/build/outputs/apk/l3/release/
         retention-days: 30
 
     - name: Upload Test Results
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: test-results-api-${{ matrix.api-level }}
+        name: test-results-l3-api-${{ matrix.api-level }}
         path: |
           app/build/reports/tests/
-          app/build/reports/lint-results-debug.html
+          app/build/reports/lint-results-l3Debug.html
         retention-days: 7
 
     - name: Upload Build Reports
@@ -120,7 +120,7 @@ jobs:
       run: chmod +x gradlew
 
     - name: Run Security Lint
-      run: ./gradlew lintDebug -Dlint.enabled=true
+      run: ./gradlew lintL3Debug -Dlint.enabled=true
 
     - name: Upload Security Reports
       if: always()
@@ -128,5 +128,5 @@ jobs:
       with:
         name: security-reports
         path: |
-          app/build/reports/lint-results-debug.html
+          app/build/reports/lint-results-l3Debug.html
         retention-days: 14

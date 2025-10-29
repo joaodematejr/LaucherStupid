@@ -7,6 +7,19 @@ Um launcher Android personalizado desenvolvido em Kotlin com Jetpack Compose.
 Este é um launcher Android que substitui a tela inicial padrão do seu dispositivo, permitindo uma
 experiência personalizada de navegação e organização de aplicativos.
 
+## 🏷️ Product Flavors
+
+O projeto está configurado com **Product Flavors** para diferentes modelos:
+
+### **L3 Launcher**
+
+- **Modelo**: L3
+- **App ID**: `com.demate.laucherstupid.l3`
+- **Nome**: "Launcher L3"
+- **Grid**: 3 colunas
+- **Ícones**: 56dp
+- **Premium**: Desabilitado
+
 ## 🚀 Funcionalidades
 
 - **Interface Personalizada**: Tela inicial com grid de aplicativos
@@ -17,17 +30,18 @@ experiência personalizada de navegação e organização de aplicativos.
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **Kotlin** - Linguagem principal
-- **Jetpack Compose** - UI moderna
-- **Android SDK** - Desenvolvimento Android
-- **Gradle** - Sistema de build
+- **Kotlin 2.2.21** - Linguagem principal
+- **Jetpack Compose (BOM 2025.10.01)** - UI moderna
+- **Android 16 (API 36)** - Target SDK mais recente
+- **Android Gradle Plugin 8.13.0** - Build tools
+- **Java 17** - Runtime
 
 ## 📋 Pré-requisitos
 
-- Android Studio Narwhal 4 Feature Drop | 2025.1.4 ou superior
-- Android SDK API 24+ (Android 7.0)
-- Gradle 8.0+
-- JDK 11+
+- Android Studio Ladybug 2024.2.1+ ou superior
+- Android SDK API 25+ (Android 7.1)
+- Gradle 8.14.3+
+- JDK 17+
 
 ## 🔧 Instalação
 
@@ -40,21 +54,69 @@ git clone https://github.com/joaodematejr/LaucherStupid.git
 
 3. Sincronize o projeto com os arquivos Gradle
 
-4. Execute o build:
-
+4. Execute o build (use comandos com flavor L3):
 ```bash
-./gradlew build
+# Build completo
+./gradlew assembleL3Debug
+
+# Ou use o script helper
+chmod +x gradle_tasks_l3.sh
+./gradle_tasks_l3.sh
 ```
 
 ## 🏃‍♂️ Como Executar
 
 1. Conecte um dispositivo Android ou inicie um emulador
-2. Execute o projeto através do Android Studio (Shift + F10)
-3. Ou use o comando:
+
+2. Execute o app L3:
 
 ```bash
-./gradlew installDebug
+./gradlew installL3Debug
 ```
+
+## 📋 Comandos Gradle (L3 Flavor)
+
+### **Build Tasks**:
+```bash
+./gradlew assembleL3Debug     # APK Debug
+./gradlew assembleL3Release   # APK Release
+```
+
+### **Test Tasks**:
+
+```bash
+./gradlew lintL3Debug         # Análise de código
+./gradlew testL3DebugUnitTest # Testes unitários
+```
+
+### **Install Tasks**:
+
+```bash
+./gradlew installL3Debug     # Instalar debug
+./gradlew uninstallL3Debug   # Desinstalar debug
+```
+
+⚠️ **Importante**: Use sempre os comandos com sufixo `L3` devido aos product flavors configurados!
+
+## 📁 Estrutura de Saída
+
+```
+app/build/outputs/apk/l3/
+├── debug/
+│   └── app-l3-debug.apk
+└── release/
+    └── app-l3-release.apk
+```
+
+## 🎨 Esquema de Cores
+
+O projeto inclui um esquema de cores profissional otimizado para launchers de pagamento:
+
+- **Tema Claro/Escuro**: Suporte completo
+- **Cores específicas**: Transações, sistema, comunicação
+- **Material 3**: Design system moderno
+
+Veja `COLORS_DOCUMENTATION.md` para detalhes completos.
 
 ## 📱 Como Definir como Launcher Principal
 
