@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        api-level: [33, 34, 35, 36]
+        api-level: [ 33, 34 ]
 
     steps:
     - name: Checkout code
@@ -35,7 +35,7 @@ jobs:
       run: chmod +x gradlew
 
     - name: Cache Gradle packages
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           ~/.gradle/caches
@@ -45,7 +45,7 @@ jobs:
           ${{ runner.os }}-gradle-
 
     - name: Cache Android build cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           ~/.android/build-cache
@@ -67,35 +67,39 @@ jobs:
 
     - name: Upload Debug APK
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: debug-apk
+        name: debug-apk-api-${{ matrix.api-level }}
         path: app/build/outputs/apk/debug/
+        retention-days: 30
 
     - name: Upload Release APK
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: release-apk
+        name: release-apk-api-${{ matrix.api-level }}
         path: app/build/outputs/apk/release/
+        retention-days: 30
 
     - name: Upload Test Results
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: test-results
+        name: test-results-api-${{ matrix.api-level }}
         path: |
           app/build/reports/tests/
           app/build/reports/lint-results-debug.html
+        retention-days: 7
 
     - name: Upload Build Reports
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: build-reports
+        name: build-reports-api-${{ matrix.api-level }}
         path: |
           app/build/reports/
           build/reports/
+        retention-days: 7
 
   security-scan:
     runs-on: ubuntu-latest
@@ -110,6 +114,7 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+        cache: gradle
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
@@ -119,8 +124,9 @@ jobs:
 
     - name: Upload Security Reports
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: security-reports
         path: |
           app/build/reports/lint-results-debug.html
+        retention-days: 14
