@@ -8,34 +8,84 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = PrimaryBlueLight,
+    onPrimary = LightBackground,
+    primaryContainer = PrimaryBlue,
+    onPrimaryContainer = PrimaryBluePale,
+    secondary = SuccessGreenLight,
+    onSecondary = LightBackground,
+    secondaryContainer = SuccessGreen,
+    onSecondaryContainer = SuccessGreenPale,
+    tertiary = AccentOrangeLight,
+    onTertiary = NeutralGray900,
+    tertiaryContainer = AccentOrange,
+    onTertiaryContainer = AccentOrangePale,
+    background = DarkBackground,
+    onBackground = NeutralGray100,
+    surface = DarkSurface,
+    onSurface = NeutralGray100,
+    surfaceVariant = DarkCard,
+    onSurfaceVariant = NeutralGray300,
+    surfaceContainer = NeutralGray800,
+    surfaceContainerHigh = NeutralGray700,
+    surfaceContainerHighest = NeutralGray600,
+    surfaceContainerLow = NeutralGray900,
+    surfaceContainerLowest = NeutralGray900,
+    outline = NeutralGray500,
+    outlineVariant = NeutralGray700,
+    error = ErrorRedLight,
+    onError = NeutralGray900,
+    errorContainer = ErrorRed,
+    onErrorContainer = ErrorRedPale,
+    inverseSurface = LightSurface,
+    inverseOnSurface = NeutralGray800,
+    inversePrimary = PrimaryBlue,
+    scrim = NeutralGray900.copy(alpha = 0.32f)
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    primary = PrimaryBlue,
+    onPrimary = LightBackground,
+    primaryContainer = PrimaryBluePale,
+    onPrimaryContainer = PrimaryBlue,
+    secondary = SuccessGreen,
+    onSecondary = LightBackground,
+    secondaryContainer = SuccessGreenPale,
+    onSecondaryContainer = SuccessGreen,
+    tertiary = AccentOrange,
+    onTertiary = LightBackground,
+    tertiaryContainer = AccentOrangePale,
+    onTertiaryContainer = AccentOrange,
+    background = LightBackground,
+    onBackground = NeutralGray900,
+    surface = LightSurface,
+    onSurface = NeutralGray900,
+    surfaceVariant = NeutralGray100,
+    onSurfaceVariant = NeutralGray700,
+    surfaceContainer = NeutralGray50,
+    surfaceContainerHigh = NeutralGray100,
+    surfaceContainerHighest = NeutralGray200,
+    surfaceContainerLow = LightBackground,
+    surfaceContainerLowest = LightBackground,
+    outline = NeutralGray400,
+    outlineVariant = NeutralGray200,
+    error = ErrorRed,
+    onError = LightBackground,
+    errorContainer = ErrorRedPale,
+    onErrorContainer = ErrorRed,
+    inverseSurface = NeutralGray800,
+    inverseOnSurface = NeutralGray100,
+    inversePrimary = PrimaryBlueLight,
+    scrim = NeutralGray900.copy(alpha = 0.32f)
 )
 
 @Composable
 fun LauncherStupidTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
@@ -44,14 +94,19 @@ fun LauncherStupidTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    val launcherColors = if (darkTheme) darkLauncherColors else lightLauncherColors
+
+    CompositionLocalProvider(
+        LocalLauncherColors provides launcherColors
+    ) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }
