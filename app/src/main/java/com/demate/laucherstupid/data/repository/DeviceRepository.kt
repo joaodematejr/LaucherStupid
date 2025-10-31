@@ -22,12 +22,13 @@ class DeviceRepository @Inject constructor(
         context.getSharedPreferences("device_prefs", Context.MODE_PRIVATE)
     }
 
-    enum class DeviceIdType { INSTALLATION, ANDROID_ID, SERIAL }
+    enum class DeviceIdType { INSTALLATION, ANDROID_ID, SERIAL, IMEI }
 
     fun getDeviceId(type: DeviceIdType = DeviceIdType.ANDROID_ID): String {
         return when (type) {
             DeviceIdType.ANDROID_ID -> getAndroidId() ?: getInstallationId()
             DeviceIdType.SERIAL -> getDeviceSerial() ?: getAndroidId() ?: getInstallationId()
+            DeviceIdType.IMEI -> getDeviceImei() ?: getAndroidId() ?: getInstallationId()
             DeviceIdType.INSTALLATION -> getInstallationId()
         }
     }
@@ -72,6 +73,55 @@ class DeviceRepository @Inject constructor(
                 }
                 serial?.takeIf { it.isNotBlank() && it != UNKNOWN }
             }
+        } catch (_: Exception) {
+            null
+        }
+    }
+
+    @SuppressLint("MissingPermission", "HardwareIds")
+    private fun getDeviceImei(): String? {
+        return try {
+            val telephony =
+                context.getSystemService(Context.TELEPHONY_SERVICE) as? android.telephony.TelephonyManager
+                    ?: return null
+
+            // Permission check
+            val hasPermission = ContextCompat.checkSelfPermission(
+                context, Manifest.permission.READ_PHONE_STATE
+            ) == PackageManager.PERMISSION_GRANTED
+            if (!hasPermission) return null
+
+            // Try to retrieve IMEI across possible SIM slots. On Android Q+ this will usually
+            // throw SecurityException or return null for non-privileged apps; we catch and return null.
+            try {
+                val phoneCount = try {
+                    // telephony.phoneCount may throw on some edge devices; guard it
+                    telephony.phoneCount
+                } catch (_: Exception) {
+                    1
+                }
+
+                val max = phoneCount.coerceAtLeast(1)
+                for (slot in 0 until max) {
+                    val imei: String? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        try {
+                            telephony.getImei(slot)
+                        } catch (_: Exception) {
+                            null
+                        }
+                    } else {
+                        @Suppress("DEPRECATION")
+                        telephony.deviceId
+                    }
+
+                    if (!imei.isNullOrBlank() && imei != UNKNOWN) return imei
+                }
+            } catch (_: SecurityException) {
+                // Access to IMEI is restricted on Android Q+ for normal apps — return null.
+                return null
+            }
+
+            null
         } catch (_: Exception) {
             null
         }

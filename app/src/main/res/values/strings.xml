@@ -6,4 +6,5 @@
     <string name="device_registration_message">Faça o cadastro do seu dispositivo para habilitar o acesso</string>
     <string name="txt_start">Iniciar</string>
     <string name="wait_mounting">Aguarde</string>
+    <string name="imei_not_available">IMEI não disponível</string>
 </resources>
