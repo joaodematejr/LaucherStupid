@@ -21,6 +21,8 @@ import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -28,6 +30,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -40,6 +43,7 @@ import androidx.core.content.ContextCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.demate.laucherstupid.R
 import com.demate.laucherstupid.ui.components.LauncherBackHandler
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
@@ -83,6 +87,9 @@ fun HomeScreen(
             }
         }
     }
+
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -166,7 +173,17 @@ fun HomeScreen(
                     .padding(horizontal = 36.dp, vertical = 16.dp)
                     .height(48.dp),
                 shape = RoundedCornerShape(7.dp),
-                onClick = { }
+                onClick = {
+                    viewModel.onStartClicked(
+                        onNavigateHome = {
+                            // As we have only Home in NavGraph, just show success snackbar for now
+                            scope.launch { snackbarHostState.showSnackbar("Acesso liberado") }
+                        },
+                        onError = { msg ->
+                            scope.launch { snackbarHostState.showSnackbar(msg) }
+                        }
+                    )
+                }
             ) {
                 Text(
                     text = stringResource(R.string.txt_start),
@@ -177,6 +194,14 @@ fun HomeScreen(
                 )
             }
         }
+
+        // Snackbar host overlay
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 8.dp)
+        )
     }
 }
 

@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.google.services)
 }
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -71,7 +72,7 @@ android {
     productFlavors {
         create("l3") {
             dimension = "model"
-            applicationIdSuffix = ".l3"
+            //applicationIdSuffix = ".l3"
             versionNameSuffix = "-L3"
             buildConfigField("String", "MODEL_TYPE", "\"L3\"")
         }
@@ -121,7 +122,11 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     // Import the BoM for the Firebase platform
     implementation(platform(libs.firebase.bom))
-    // Add the dependency for the Firebase Authentication library
-    // When using the BoM, you don't specify versions in Firebase library dependencies
+    // Firebase Auth
     implementation(libs.firebase.auth)
+    // Firebase Firestore KTX (BoM-managed)
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.analytics)
+    // Kotlin coroutines integration for Google Play Services Tasks
+    implementation(libs.kotlinxcoroutinesplayservices)
 }
