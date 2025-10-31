@@ -2,9 +2,8 @@
     <string name="app_name">Launcher Stupid</string>
     <string name="model_description">Launcher Android Personalizado</string>
     <string name="welcome_message">Bem-vindo!</string>
-    <string name="grid_info">Grade de aplicativos</string>
-    <string name="layout_type">default</string>
-    <string name="feature_set">standard</string>
     <string name="utility_model_description">Launcher Utilitário</string>
     <string name="device_registration_message">Faça o cadastro do seu dispositivo para habilitar o acesso</string>
+    <string name="txt_start">Iniciar</string>
+    <string name="wait_mounting">Aguarde</string>
 </resources>
