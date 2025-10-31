@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
 }
 
 val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -71,12 +73,7 @@ android {
             dimension = "model"
             applicationIdSuffix = ".l3"
             versionNameSuffix = "-L3"
-            resValue("string", "app_name", "Launcher L3")
-            resValue("string", "model_name", "L3")
-            resValue("integer", "grid_columns", "3")
-            resValue("integer", "icon_size", "56")
             buildConfigField("String", "MODEL_TYPE", "\"L3\"")
-            buildConfigField("boolean", "PREMIUM_FEATURES", "false")
         }
     }
     compileOptions {
@@ -110,6 +107,10 @@ dependencies {
     // Navigation Compose
     implementation(libs.androidx.navigation.compose)
 
+    // Hilt via version catalog
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
